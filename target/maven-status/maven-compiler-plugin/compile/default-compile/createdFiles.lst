@@ -1,0 +1,4 @@
+com\clipbord\beans\Clipboards.class
+com\clipbord\controller\ClipboardsController.class
+com\clipbord\ClipbordApplication.class
+com\clipbord\repository\ClipboardsRepository.class
