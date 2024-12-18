@@ -3,225 +3,214 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>cl1p.net - The Internet Clipboard</title>
+  <title>CyberVora</title>
   <link rel="stylesheet" href="styles.css">
   <style type="text/css">
-  /* styles.css */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #fff;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.container {
-  width: 100%;
-  max-width: 900px;
-  border: 1px solid #000;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-.top-bar {
-  background-color: #000;
-  color: #fff;
-  padding: 10px;
-  font-size: 16px;
-  border-bottom: 3px solid red;
-}
-
-.top-bar h1 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: normal;
-}
-
-.description {
-  margin: 10px 0;
-  font-size: 14px;
-  text-align: left;
-}
-
-.clipboard {
-  margin: 20px 0;
-}
-
-.toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px; /* Adds consistent spacing */
-  margin-bottom: 10px;
-  align-items: center;
-}
-
-select {
-  flex: 1; /* Takes available space */
-  padding: 5px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  min-width: 20px;
-}
-
-.submit-btn {
-  flex-shrink: 0; /* Ensures button does not shrink */
-  padding: 6px 12px;
-  font-size: 14px;
-  color: #fff;
-  background-color: #000;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-.submit-btn:hover {
-  background-color: #444;
-}
-
-textarea {
-  width: 100%;
-  height: 300px;
-  border: 1px solid #000;
-  font-size: 14px;
-  padding: 10px;
-  box-sizing: border-box;
-  resize: none;
-}
-
-.footer {
-  text-align: right;
-  padding: 10px 0;
-  font-size: 12px;
-  color: #000;
-  border-top: 1px solid #ccc;
-}
-
-.footer a {
-  color: #000;
-  text-decoration: none;
-}
-
-.footer a:hover {
-  text-decoration: underline;
-}
-
-.footer span {
-  margin: 0 5px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-  .container {
-    padding: 15px;
+  /* Base Styles */
+  body {
+    /* font-family: 'Arial', sans-serif; */
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
+    /* min-height: 100vh; */
   }
 
-  .top-bar h1 {
+  .container {
+    width: 100%;
+    /* max-width: 800px; */
+    max-width: auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .top-bar {
+    background-color: #000;
+    color: #fff;
+    padding: 3px;
+    font-size: 14px;
+    border-bottom: 3px solid red;
     text-align: center;
-    font-size: 12px;
+    border-radius: 8px;
   }
 
   .description {
-    font-size: 12px;
+    font-size: 14px;
+    padding: 10px;
     text-align: center;
+  }
+  
+   .for-button {
+    font-size: 5px;
+    padding: 4px;
+    text-align: center;
+  }
+
+  .clipboard {
+    padding: 15px;
   }
 
   .toolbar {
-    flex-direction: column; /* Stacks dropdown and button */
-    gap: 5px; /* Reduces gap for smaller screens */
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
   }
 
-  select,
+  select {
+    flex: 1;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    outline: none;
+  }
+
+  .textarea-container {
+    display: flex;
+    position: relative;
+  }
+
+ textarea {
+  flex: 1;
+  width: 100%;
+  height: 200px; /* Default height for larger screens */
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: none;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* For mobile devices, make textarea full-screen height */
+@media (max-width: 600px) {
+  textarea { 
+    height: calc(75vh - 150px); /* Adjust height for smaller screens */
+  }
+}
+
+
+  #copyButton {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  #copyButton:hover {
+    background-color: #444;
+  }
+
+  .word-count {
+    margin-top: 10px;
+    font-size: 12px;
+    text-align: left;
+  }
+
   .submit-btn {
-    width: 100%; /* Full-width on smaller screens */
-  }
-
-  textarea {
-    height: 200px; /* Adjust textarea height for smaller screens */
-  }
-
-  .footer {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
     text-align: center;
-    font-size: 10px;
   }
-}
 
-.mouse{
-cursor: pointer;
-}
-  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+
+  /* Responsive Styles */
+ /*  @media (max-width: 600px) {
+    .toolbar {
+      flex-direction: column;
+    }
+
+    textarea {
+      height: 150px;
+    }
+
+  } */
   </style>
   <script type="text/javascript">
-  function copyToClipboard() {
+    function copyToClipboard() {
       var textarea = document.getElementById("contentTextarea");
       textarea.select();
-      textarea.setSelectionRange(0, 99999); 
-
       document.execCommand("copy");
       var button = document.getElementById("copyButton");
-      button.innerText = "Copied";
-      
+      button.innerText = "Copied!";
       setTimeout(function() {
           button.innerText = "Copy";
-      }, 2000); 
-  }
-  
-  function updateWordCount() {
-      // Get the textarea element
+      }, 2000);
+    }
+
+    function updateWordCount() {
       var textarea = document.getElementById("contentTextarea");
-      
-      // Get the content of the textarea
-      var content = textarea.value;
-
-      // Split the content into words
-      var words = content.trim().split(/\s+/); // Split by whitespace
-      
-      // Count the number of words
-      var wordCount = content.length > 0 ? words.length : 0;
-
-      // Update the word count display
+      var words = textarea.value.trim().split(/\s+/);
+      var wordCount = textarea.value.length > 0 ? words.length : 0;
       document.getElementById("wordCount").innerText = "Total Words: " + wordCount;
-  }
-  window.onload = function() {
+    }
+
+    window.onload = function() {
       updateWordCount();
-  };
+    };
   </script>
 </head>
 <body>
   <div class="container">
-    <div class="top-bar">
-      <h1>cl1p.net - The internet clipboard</h1>
-    </div>
-    <p class="description">Paste in anything you want.</p>
-    <button th:if="${copyButton}" id="copyButton" onclick="copyToClipboard()" class="mouse" title="Copy Content">Copy</button>
-     <form th:action="@{/{uniqueId}(uniqueId=${uniqueId})}" method="POST">
+    <!-- <div class="top-bar">
+      <h2>cybervora.com - The Internet Sharing Content</h2>
+    </div> -->
     <div class="clipboard">
-      <div class="toolbar" th:if="${timeLimit}">
-        <select name="expiryTime" required>
-            <option value="1">Destroy cl1p in 1 minute</option>
-            <option value="10">Destroy cl1p in 10 minutes</option>
-            <option value="60">Destroy cl1p in 1 Hour</option>
-            <option value="1550">Destroy cl1p in 1 Day</option>
-            <option value="10080">Destroy cl1p in 1 Week</option>
-            <option value="43800">Destroy cl1p in 1 Month</option>
-        </select>
-        
-      </div>
-     
-     <div>
-	    <textarea placeholder="Paste in anything you want..." th:text="${content}" name="content" id="contentTextarea" oninput="updateWordCount()"></textarea>
-	   <div id="wordCount">Total Words: 0</div>
-	</div>
-      <button type="submit" th:if="${timeLimit}" class="mouse">Create Clip</button>
+    <div class="top-bar">
+      <h2>cybervora.com - The Internet Sharing Content</h2>
+      <p  th:if="${copyButton}" th:text="'This cybervora will be deleted in ' + ${remainingTime} + '.'"></p>
+    </div> 
     </div>
-     </form>
-    <footer class="footer">
-      <a href="#">Login/Sign Up</a> <span>|</span> <a href="#">cl1p.net/dd1</a>
-    </footer>
+    <!-- <p class="description">Paste in anything you want.</p> -->
+
+    <form th:action="@{/{uniqueId}(uniqueId=${uniqueId})}" method="POST">
+      <div class="clipboard">
+        <div class="toolbar" th:if="${timeLimit}">
+          <select name="expiryTime" required>
+            <option value="1">Destroy CyberVora in 1 minute</option>
+            <option value="10">Destroy CyberVora in 10 minutes</option>
+            <option value="60">Destroy CyberVora in 1 Hour</option>
+            <option value="1550">Destroy CyberVora in 1 Day</option>
+            <option value="10080">Destroy CyberVora in 1 Week</option>
+            <option value="43800">Destroy CyberVora in 1 Month</option>
+          </select>
+        </div>
+
+        <div class="textarea-container">
+          <textarea placeholder="Paste in anything you want..." th:text="${content}" name="content" id="contentTextarea" oninput="updateWordCount()"></textarea>
+          <button type="button" th:if="${copyButton}" id="copyButton" onclick="copyToClipboard()">Copy</button>
+        </div>
+        <div id="wordCount" class="word-count">Total Words: 0</div>
+         <p class="for-button"></p>
+        <button type="submit" th:if="${timeLimit}" class="submit-btn">Create</button>
+      </div>
+      
+    </form>
   </div>
 </body>
 </html>
