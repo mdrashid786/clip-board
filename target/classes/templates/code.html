@@ -153,33 +153,33 @@ textarea {
 .mouse{
 cursor: pointer;
 }
-  
+
   </style>
   <script type="text/javascript">
   function copyToClipboard() {
       var textarea = document.getElementById("contentTextarea");
       textarea.select();
-      textarea.setSelectionRange(0, 99999); 
+      textarea.setSelectionRange(0, 99999);
 
       document.execCommand("copy");
       var button = document.getElementById("copyButton");
       button.innerText = "Copied";
-      
+
       setTimeout(function() {
           button.innerText = "Copy";
-      }, 2000); 
+      }, 2000);
   }
-  
+
   function updateWordCount() {
       // Get the textarea element
       var textarea = document.getElementById("contentTextarea");
-      
+
       // Get the content of the textarea
       var content = textarea.value;
 
       // Split the content into words
       var words = content.trim().split(/\s+/); // Split by whitespace
-      
+
       // Count the number of words
       var wordCount = content.length > 0 ? words.length : 0;
 
@@ -209,9 +209,9 @@ cursor: pointer;
             <option value="10080">Destroy cl1p in 1 Week</option>
             <option value="43800">Destroy cl1p in 1 Month</option>
         </select>
-        
+
       </div>
-     
+
      <div>
 	    <textarea placeholder="Paste in anything you want..." th:text="${content}" name="content" id="contentTextarea" oninput="updateWordCount()"></textarea>
 	   <div id="wordCount">Total Words: 0</div>
