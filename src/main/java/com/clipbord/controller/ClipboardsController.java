@@ -1,5 +1,6 @@
 package com.clipbord.controller;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -28,7 +29,7 @@ public class ClipboardsController {
 	 
 	@Autowired
 	private ExpiryTimeChecker expiryTimeChecker;
-    
+     
 	 
 	@PostMapping("/{uniqueId}")
 	public String saveClipboard(
@@ -44,10 +45,11 @@ public class ClipboardsController {
 
 	    Clipboards clipboard = new Clipboards(uniqueId, content, expiryTimestamp);
 	    clipboardRepository.save(clipboard);
+	    String baseUrl="";
 
 	    try {
 	        // Construct dynamic base URL
-	        String baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/";
+	        baseUrl = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/";
 	        String qrCodeImage = QRCodeService.generateQRCode(baseUrl, uniqueId);
 
 	        model.addAttribute("qrCode", qrCodeImage);
@@ -56,7 +58,7 @@ public class ClipboardsController {
 	        e.printStackTrace();
 	        model.addAttribute("error", "Failed to generate QR Code");
 	    }
-	    model.addAttribute("link", uniqueId);
+	    model.addAttribute("link", baseUrl+""+uniqueId);
 	    return "success";
 	}
 
@@ -66,31 +68,82 @@ public class ClipboardsController {
         return "success";
     }
 
+//    @GetMapping("/{uniqueId}")
+//    public String getClipboard(@PathVariable String uniqueId, Model model) {
+//        Optional<Clipboards> optionalClipboard = clipboardRepository.findById(uniqueId);
+//        System.out.println("uniqueId : "+uniqueId);
+//        boolean timeLimit= true;
+//
+//        if (optionalClipboard.isPresent()) {
+//            Clipboards clipboard = optionalClipboard.get();
+//            if (clipboard.getExpiryTimestamp().isAfter(LocalDateTime.now())) {
+//            	 timeLimit=false;
+//            	 model.addAttribute("timeLimit",timeLimit);
+//            	 model.addAttribute("copyButton","copyButton");
+//            	 
+//            	 LocalDateTime expiryday= clipboard.getExpiryTimestamp();
+//            	 expiryTimeChecker.ExpiryTime(expiryday);
+//            	 
+//                model.addAttribute("content", clipboard.getContent());
+//                return "code"; 
+//            } else {
+//                clipboardRepository.deleteById(uniqueId); 
+//            }
+//        }
+//        model.addAttribute("timeLimit",timeLimit);
+//        return "code"; 
+//    }
+    
     @GetMapping("/{uniqueId}")
     public String getClipboard(@PathVariable String uniqueId, Model model) {
         Optional<Clipboards> optionalClipboard = clipboardRepository.findById(uniqueId);
-        System.out.println("uniqueId : "+uniqueId);
-        boolean timeLimit= true;
+        System.out.println("uniqueId : " + uniqueId);
+        boolean timeLimit = true;
 
         if (optionalClipboard.isPresent()) {
             Clipboards clipboard = optionalClipboard.get();
-            if (clipboard.getExpiryTimestamp().isAfter(LocalDateTime.now())) {
-            	 timeLimit=false;
-            	 model.addAttribute("timeLimit",timeLimit);
-            	 model.addAttribute("copyButton","copyButton");
-            	 
-            	 LocalDateTime expiryday= clipboard.getExpiryTimestamp();
-            	 expiryTimeChecker.ExpiryTime(expiryday);
-            	 
+            LocalDateTime now = LocalDateTime.now();
+            LocalDateTime expiryTimestamp = clipboard.getExpiryTimestamp();
+
+            if (expiryTimestamp.isAfter(now)) {
+                timeLimit = false;
+
+                // Calculate remaining time
+                Duration duration = Duration.between(now, expiryTimestamp);
+                long days = duration.toDays();
+                long hours = duration.toHoursPart();
+                long minutes = duration.toMinutesPart();
+                long seconds  = duration.toSecondsPart();
+
+                // Determine the most relevant unit for display
+                String remainingTime;
+                if (days > 0) {
+                    remainingTime = days + (days == 1 ? " day" : " days");
+                } else if (hours > 0) {
+                    remainingTime = hours + (hours == 1 ? " hour" : " hours");
+                } else if (minutes > 0) {
+                	remainingTime = minutes + (minutes == 1 ? " minute" : " minutes");
+                } else {
+                    remainingTime = seconds  + (seconds  == 1 ? " second" : " seconds ");
+                }
+
+                // Pass values to the model
+                model.addAttribute("timeLimit", timeLimit);
+                model.addAttribute("remainingTime", remainingTime);
+                model.addAttribute("copyButton", "copyButton");
                 model.addAttribute("content", clipboard.getContent());
-                return "code"; 
+
+                return "code";
             } else {
-                clipboardRepository.deleteById(uniqueId); 
+                clipboardRepository.deleteById(uniqueId); // Delete expired clipboard
             }
         }
-        model.addAttribute("timeLimit",timeLimit);
-        return "code"; 
+
+        model.addAttribute("timeLimit", timeLimit);
+        return "code";
     }
+
+
     
     
 //    @PostMapping("/{uniqueId}")
