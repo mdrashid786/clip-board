@@ -90,33 +90,32 @@ footer .options .upgrade:hover {
 <body>
   <div class="container">
     <header>
-      <h1>cl1p.net - The internet clipboard</h1>
+         <h2>cybervora.com - The Internet Sharing Content</h2>
     </header>
     <main>
-      <p class="status">The cl1p has been created.</p>
+      <p class="status">The CyberVora has been created.</p>
       <p class="instructions">
        To access your content, simply visit the following link on any other device: 
-       <br>
-        <a th:href="@{${link}}">Here</a>
-       
-        <br>
+        <br><br>
+        <a th:href="@{${link}}" target="_blank"><span th:text="${link}"></span></a>
+        <br><br>
          Here’s a QR Code for quick access:
         <div class="qr-code">
             <img th:src="${qrCode}" alt="QR Code for URL" />
         </div>
 
-      </p>
+      
      <!--  <div class="qr-code">
         <img src="images/qrcode.png" alt="QR Code for URL">
       </div> -->
 	      
     </main>
-    <footer>
+    <!-- <footer>
       <div class="options">
         <a href="#">Login/Sign Up</a>
         <button class="upgrade">Upgrade to PRO</button>
       </div>
-    </footer>
+    </footer> -->
   </div>
 </body>
 </html>
