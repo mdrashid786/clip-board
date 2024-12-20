@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.clipbord.service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +31,13 @@ public class ClipboardsController {
     @Autowired
     private ExpiryTimeChecker expiryTimeChecker;
 
+    @Autowired
+    private VisitorService visitorService;
+
 
     @GetMapping("/")
-    public String home(){
-
+    public String home(HttpServletRequest request){
+        visitorService.saveVisitor(request);
         return "display";
     }
 
@@ -45,7 +49,7 @@ public class ClipboardsController {
             @RequestParam("expiryTime") long expiryTime,
             Model model,
             HttpServletRequest request) { // Add HttpServletRequest parameter
-
+          visitorService.saveVisitor(request);
         System.out.println("I am in save method with uniqueId: " + uniqueId);
 
         LocalDateTime expiryTimestamp = LocalDateTime.now().plusMinutes(expiryTime);
@@ -102,11 +106,11 @@ public class ClipboardsController {
 //    }
 
     @GetMapping("/{uniqueId}")
-    public String getClipboard(@PathVariable String uniqueId, Model model) {
+    public String getClipboard(@PathVariable String uniqueId, Model model,HttpServletRequest request) {
         Optional<Clipboards> optionalClipboard = clipboardRepository.findById(uniqueId);
         System.out.println("uniqueId : " + uniqueId);
         boolean timeLimit = true;
-
+        //visitorService.saveVisitor(request);
         if (optionalClipboard.isPresent()) {
             Clipboards clipboard = optionalClipboard.get();
             LocalDateTime now = LocalDateTime.now();
