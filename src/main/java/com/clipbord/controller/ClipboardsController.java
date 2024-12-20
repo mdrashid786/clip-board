@@ -31,6 +31,13 @@ public class ClipboardsController {
     private ExpiryTimeChecker expiryTimeChecker;
 
 
+    @GetMapping("/")
+    public String home(){
+
+        return "display";
+    }
+
+
     @PostMapping("/{uniqueId}")
     public String saveClipboard(
             @PathVariable("uniqueId") String uniqueId,
